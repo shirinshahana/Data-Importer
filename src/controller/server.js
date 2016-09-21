@@ -1,4 +1,4 @@
-var db = require("../model/db.js");
+
 var fs = require('fs');
 var csvSync = require('csv-parse/lib/sync');
 var Promise = require("bluebird"); 
@@ -9,14 +9,12 @@ var service = require("../service/services.js")
 
 var log = require("../../logs/log.js").log
 
-
-
-var error_flag = 0
+var mysql= Promise.promisifyAll(require('mysql'))
+var error_flag 
 
 Promise.promisifyAll(fs)
 
 module.exports.import = function(req, res) {
-
 
 fs.readdirAsync(config.path)
 .then(function(files){
@@ -40,7 +38,7 @@ fs.readdirAsync(config.path)
 
 .then(function(contents){
 	
-  return Promise.all([fs.readFileAsync(config.path+config.dunzip+contents[1][0]),fs.readFileAsync(config.path+config.munzip+contents[0][0])])
+  return Promise.all([fs.readFileAsync(config.path+config.dunzip+contents[1][0]),fs.readFileAsync(config.path+config.munzip+contents[0][0]),require("../model/db.js").getConnection()])
 })
 
 .then(function(contents){
@@ -52,32 +50,31 @@ fs.readdirAsync(config.path)
 
 
     data= data.filter(function() { return data[0] != ""  });
-    console.log(data.length)
-    db.query('insert into item_table (sku , dayPrice , currentPrice , salesAmount , salesQuantity , stockQuantity , arrivalQuantity , salesQuantity10H , salesQuantity11H , salesQuantity12H , salesQuantity13H , salesQuantity14H , salesQuantity15H , salesQuantity16H , salesQuantity17H , salesQuantity18H , salesQuantity19H , salesQuantity20H , salesQuantity21H , salesQuantity22H , salesQuantity23H , regionCode ) values ?',[data],function(err,data){
-        return (err ? log.error(err) : log.info(" Data Insertion Successful"));
-  })
+    
 
 
 
-  data= data.filter(function() { return data[0] != ""  });
-    console.log(data.length)
 
-  var data = csvSync(contents[1], { delimiter: ','})
-  data.forEach(function(record){
+
+  
+
+  var data1 = csvSync(contents[1], { delimiter: ','})
+    data1= data1.filter(function() { return data1[0] != ""  });
+  data1.forEach(function(record){
     record= record.map(function(item) { return item == "" ? "null" : item; });
     })
-
-    db.query('insert into item_master (storeId, itemLocalName, itemCode, itemType,sku, itemLevel, colorCode, colorName, sizeCode, sizeName, patternLengthCode, core, seasonCode, deptCode, gDeptCode, gDeptName) values ?',[data],function(err,data){
-         return (err ? log.error(err) : log.info(" Master Insertion Successful"));
-  })
-
+ Promise.promisifyAll(contents[2])
+  return Promise.all([contents[2].queryAsync('insert into item_table (su , dayPrice , currentPrice , salesAmount , salesQuantity , stockQuantity , arrivalQuantity , salesQuantity10H , salesQuantity11H , salesQuantity12H , salesQuantity13H , salesQuantity14H , salesQuantity15H , salesQuantity16H , salesQuantity17H , salesQuantity18H , salesQuantity19H , salesQuantity20H , salesQuantity21H , salesQuantity22H , salesQuantity23H , regionCode ) values ?',[data])
+,
+    contents[2].queryAsync('insert into item_master (storeId, itemLocalName, itemCode, itemType,sku, itemLevel, colorCode, colorName, sizeCode, sizeName, patternLengthCode, core, seasonCode, deptCode, gDeptCode, gDeptName) values ?',[data1])
+])        
 })
 
 
 
 .catch(function(err){
 	log.error(err)
-  error_flag = 1
+  error_flag = err
 
 })
 
@@ -85,10 +82,9 @@ fs.readdirAsync(config.path)
 
 .finally(function(){
   
-	 db.end()
    log.info("Closing Database Connection")
   if(error_flag)
-    res.status(400).json({'status' : 400, 'message': err})
+    res.status(400).json({'status' : 400, 'message': error_flag})
   else
     res.json({'status' : 200, 'message': "Insertion Successful"})}
 	)

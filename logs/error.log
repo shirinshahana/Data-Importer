@@ -1,3 +1,0 @@
-{"name":"data_importer","hostname":"Qburst-desktop","pid":7008,"level":50,"msg":"Error connecting to database","time":"2016-09-21T06:17:12.085Z","src":{"file":"/home/Qburst/Desktop/data_importer/src/model/db.js","line":19,"func":"module.exports"},"v":0}
-{"name":"data_importer","hostname":"Qburst-desktop","pid":7068,"level":50,"msg":"Error connecting to database","time":"2016-09-21T06:19:38.676Z","src":{"file":"/home/Qburst/Desktop/data_importer/src/model/db.js","line":19,"func":"module.exports"},"v":0}
-{"name":"data_importer","hostname":"Qburst-desktop","pid":7082,"level":50,"msg":"Error connecting to database","time":"2016-09-21T06:20:04.684Z","src":{"file":"/home/Qburst/Desktop/data_importer/src/model/db.js","line":19,"func":"module.exports"},"v":0}

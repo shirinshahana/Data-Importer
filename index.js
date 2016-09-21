@@ -13,7 +13,7 @@ var server = app.listen(4000, function () {
    var host = server.address().address
    var port = server.address().port
 
-   log.info("Example app listening at http://%s:%s", host, port)
+   log.info("Data Importer app listening at http://%s:%s", host, port)
 }); 
 
 

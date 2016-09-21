@@ -1,5 +1,7 @@
 var mysql      = require('mysql');
 
+var Promise = require("bluebird"); 
+  Promise.promisifyAll(mysql)
 
 var log = require("../../logs/log.js").log
 
@@ -7,18 +9,23 @@ var log = require("../../logs/log.js").log
  var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root' ,
-   password : 'rot' ,
+   password : 'root' ,
    database : 'data'
  });
 
- 
+ module.exports.getConnection = function(){
+	return new Promise(function(resolve, reject) {
 connection.connect(function(err){
+		
+
 if(!err) {
-    log.info("Database is connected");    
+	
+    resolve(connection);    
 } else {
-    log.error("Error connecting to database");    
+	
+    reject("Error connecting to database");    
 }
 })
- 
- module.exports = connection
+} )
+}
  
