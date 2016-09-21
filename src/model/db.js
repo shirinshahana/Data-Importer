@@ -5,11 +5,10 @@ var Promise = require("bluebird");
 
 var log = require("../../logs/log.js").log
 
-
- var connection = mysql.createConnection({
+var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root' ,
-   password : 'root' ,
+   password : 'ro0t' ,
    database : 'data'
  });
 
