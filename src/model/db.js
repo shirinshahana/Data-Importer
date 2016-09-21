@@ -8,7 +8,7 @@ var log = require("../../logs/log.js").log
 var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root' ,
-   password : 'ro0t' ,
+   password : 'root' ,
    database : 'data'
  });
 

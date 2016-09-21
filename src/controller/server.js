@@ -48,9 +48,14 @@ module.exports.import = function(req, res) {
       record= record.map(function(item) { return item == "" ? "null" : item; });
     })
     Promise.promisifyAll(contents[2])
-    return Promise.all([contents[2].queryAsync('insert into item_table (sku , dayPrice , currentPrice , salesAmount , salesQuantity , stockQuantity , arrivalQuantity , salesQuantity10H , salesQuantity11H , salesQuantity12H , salesQuantity13H , salesQuantity14H , salesQuantity15H , salesQuantity16H , salesQuantity17H , salesQuantity18H , salesQuantity19H , salesQuantity20H , salesQuantity21H , salesQuantity22H , salesQuantity23H , regionCode ) values ?',[data])
-      ,contents[2].queryAsync('insert into item_master (storeId, itemLocalName, itemCode, itemType,sku, itemLevel, colorCode, colorName, sizeCode, sizeName, patternLengthCode, core, seasonCode, deptCode, gDeptCode, gDeptName) values ?',[data1])
-    ])        
+    contents[2].queryAsync('insert into item_table (sku , dayPrice , currentPrice , salesAmount , salesQuantity , stockQuantity , arrivalQuantity , salesQuantity10H , salesQuantity11H , salesQuantity12H , salesQuantity13H , salesQuantity14H , salesQuantity15H , salesQuantity16H , salesQuantity17H , salesQuantity18H , salesQuantity19H , salesQuantity20H , salesQuantity21H , salesQuantity22H , salesQuantity23H , regionCode ) values ?',[data])
+      .then(contents[2].queryAsync('insert into item_master (storeId, itemLocalName, itemCode, itemType,sku, itemLevel, colorCode, colorName, sizeCode, sizeName, patternLengthCode, core, seasonCode, deptCode, gDeptCode, gDeptName) values ?',[data1]))
+         .catch(function(err){
+
+   log.error(err)
+    error_flag = err
+  })
+
   })
   .then(function(data){
     
