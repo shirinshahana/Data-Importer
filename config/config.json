@@ -1,0 +1,10 @@
+{
+	"path" : "/home/Qburst/Downloads/",
+	"data" : "data.zip",
+	"master": "master.zip",
+
+	"dunzip":"data/",
+	"munzip":"master/"
+	
+	
+}
