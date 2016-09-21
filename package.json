@@ -9,12 +9,25 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "shirinshahana",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "bunyan": "^1.8.1",
+    "express": "^4.14.0",
     "fs": "0.0.1-security",
     "fstream": "^1.0.10",
     "mysql": "^2.11.1",
-    "path": "^0.12.7"
-  }
+    "path": "^0.12.7",
+    "unzip": "^0.1.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shirinshahana/Data-Importer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shirinshahana/Data-Importer/issues"
+  },
+  "homepage": "https://github.com/shirinshahana/Data-Importer#readme"
 }
